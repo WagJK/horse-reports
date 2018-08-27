@@ -10,7 +10,7 @@ def make_list(table):
         result.append([])
         allcols = row.findAll('td')
         for col in allcols:
-            thestrings = [str(s).strip('\r\n ').replace('\xa0', '') for s in col.findAll(text=True)]
+            thestrings = [str(s).strip('\r\n ').replace('\xa0', ' ') for s in col.findAll(text=True)]
             thetext = ''.join(thestrings)
             result[-1].append(thetext)
     return result
