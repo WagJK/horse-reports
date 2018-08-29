@@ -15,6 +15,15 @@ def make_list(table):
             result[-1].append(thetext)
     return result
 
+
+def is_int(value):
+    try:
+        int(value)
+        return True
+    except ValueError:
+        return False
+
+
 def is_float(value):
     try:
         float(value)
@@ -22,9 +31,10 @@ def is_float(value):
     except ValueError:
         return False
 
+
 def write_list_to_csv(myList, filePath):
     try:
-        file=open(filePath,'w')
+        file=open(filePath,'w+')
         for items in myList:
             for item in items:
                 file.write(item)

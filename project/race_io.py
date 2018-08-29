@@ -4,8 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from util import make_list
+from util import print_table
 
 pp = pprint.PrettyPrinter()
+
 index_results_min = 4
 index_awards_min = 13
 
@@ -28,9 +30,9 @@ def get_raceinfo(url):
     place = info_left.find_all('p')[0].find('span').get_text()
     ddy_index = info_left.find('p', class_='f_ffChinese').get_text().replace(" ", "").split("\n")[1]
     return {
-        course: course,
-        place: place,
-        ddy_index: ddy_index
+        'course': course,
+        'place': place,
+        'ddy_index': ddy_index
     }
 
 
@@ -43,6 +45,16 @@ def get_results(url):
     soup = BeautifulSoup(response, 'lxml')
     tables = soup.find_all('table')
     
+    # get race info per race
+    info_panel = tables[3]
+    info = list(map(lambda x: x.get_text(), info_panel.find_all('td')[:6]))
+    race_info = {
+        'tag': info[0],
+        'name': info[3],
+        'cond': info[1] + ' ' + info[2],
+        'track': info[4] + ' ' + info[5]
+    }
+
     # input and process results
     index = index_results_min
     table_results = make_list(tables[4])
@@ -50,14 +62,12 @@ def get_results(url):
     while len(table_results) == 0 or len(table_results[0]) == 0 or table_results[0][0] != "名次":
         index = index + 1
         table_results = make_list(tables[index])
-
     # filter valid rows
     table_results = list(filter(lambda x: len(x) > 5, table_results))
     for i, row in enumerate(table_results):
         if i == 0: continue
         # join the section positions into 1 slot
         table_results[i] = row[:9] + [' '.join(row[10:len(row)-2])] + row[len(row)-2:]
-    # print_table(table_results)
     
     # input and process award rates
     index = index_awards_min
@@ -69,8 +79,8 @@ def get_results(url):
     for i, row in enumerate(table_awards):
         if i == 0: continue
         if len(row) < 3: table_awards[i] = [''] + row
-    # print_table(table_awards)
-    return table_results, table_awards
+
+    return race_info, table_results, table_awards
 
 
 def get_racecard(url):
@@ -84,5 +94,4 @@ def get_racecard(url):
 
     # input and process racecard
     table_racecard = make_list(tables[8])
-    # print_table(table_racecard)
     return table_racecard

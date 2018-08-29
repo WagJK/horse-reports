@@ -1,22 +1,28 @@
 import time
 import math
-from util import print_table
-from util import is_float
+import util
 
 
-def combine_tables(race_no, table_results, table_awards, table_racecard, bet_info):
+def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
     table = table_results
+    # combine race info
+    for i, row in enumerate(table):
+        if i == 0:
+            table[i].insert(0, "場次")
+        else:
+            table[i].insert(0, race_no)
+
     # combine hot info
     sort_arr = []
     for row in table:
-        if is_float(row[-1]):
+        if util.is_float(row[-1]):
             sort_arr.append(float(row[-1]))
     list.sort(sort_arr)
     for i, row in enumerate(table):
         if i == 0:
             table[i].append("熱門")
         else:
-            if is_float(row[-1]):
+            if util.is_float(row[-1]):
                 if math.isclose(float(row[-1]), sort_arr[0], rel_tol=1e-9): # 1st hot
                     table[i].append("1st Hot")
                 elif math.isclose(float(row[-1]), sort_arr[1], rel_tol=1e-9): # 2nd hot
@@ -58,7 +64,7 @@ def combine_tables(race_no, table_results, table_awards, table_racecard, bet_inf
             table[i].append("優先參賽次序")
             table[i].append("配備")
         else:
-            if row[1] != '':
+            if row[1] != '' and util.is_int(row[1]):
                 horse_number = int(row[1])
                 table[i].append(table_racecard[horse_number][-6]) # 優先參賽次序
                 table[i].append(table_racecard[horse_number][-5]) # 配備
@@ -88,5 +94,4 @@ def combine_tables(race_no, table_results, table_awards, table_racecard, bet_inf
                 if horse_number[0] == table[i][1] or horse_number[1] == table[i][1]:
                     table[i].append(table_awards[j][2])
                 else: table[i].append('')
-
     return table
