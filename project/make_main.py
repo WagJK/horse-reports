@@ -18,23 +18,28 @@ def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
         if util.is_float(row[-1]):
             sort_arr.append(float(row[-1]))
     list.sort(sort_arr)
+    hot_flag = False
     for i, row in enumerate(table):
         if i == 0:
             table[i].append("熱門")
         else:
             if util.is_float(row[-1]):
-                if math.isclose(float(row[-1]), sort_arr[0], rel_tol=1e-9): # 1st hot
+                if math.isclose(float(row[-1]), sort_arr[0], rel_tol=1e-9) and not hot_flag: # 1st hot
                     table[i].append("1st Hot")
+                    hot_flag = True
                 elif math.isclose(float(row[-1]), sort_arr[1], rel_tol=1e-9): # 2nd hot
                     table[i].append("2nd Hot")
                 else:
                     table[i].append("-")
             else:
                 table[i].append("-")
+
     
     # combine bet info
+    have_bet = False
     for i, bet in enumerate(bet_info["bet"]):
         if bet["id"] == race_no:
+            have_bet = True
             for j, row in enumerate(table):
                 # append bet for this row
                 if j == 0:
@@ -57,6 +62,12 @@ def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
                         table[j].append("Big(PQ)")
                 else:
                     table[j].append("")
+    if not have_bet:
+        for j, row in enumerate(table):
+            if j == 0:
+                table[j].append("投注")
+            else:
+                table[j].append("")
 
     # combine racecard info
     for i, row in enumerate(table):
@@ -95,3 +106,13 @@ def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
                     table[i].append(table_awards[j][2])
                 else: table[i].append('')
     return table
+
+
+def combine_tables(tables):
+    full_table = []
+    for i, table in enumerate(tables):
+        if i == 0:
+            full_table.extend(table)
+        else:
+            full_table.extend(table[1:])
+    return full_table

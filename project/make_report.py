@@ -3,15 +3,15 @@ import math
 import util
 
 
-def make_table(race_no, bet_info, race_info, table_results, table_awards, table_main):
+def make_table(race_no, bet_info, race_info, table_awards, table_main):
 	table = []
 	table.append([race_info["tag"]]) 
 	# 1st win odds, queue odds, 1st hot performance
-	table.append([table_awards[1][2], table_awards[5][2]]) 
+	table.append([util.str_to_float(table_awards[1][2]), util.str_to_float(table_awards[5][2])])
 	# 2nd pos odds, 2nd hot performance
-	table.append([table_awards[3][2], ''])
+	table.append([util.str_to_float(table_awards[3][2]), ''])
 	# 3rd pos odds
-	table.append([table_awards[4][2]])
+	table.append([util.str_to_float(table_awards[4][2])])
 	# add hot performance now
 	for i, row in enumerate(table_main):
 		if i == 0: continue
@@ -35,3 +35,9 @@ def make_table(race_no, bet_info, race_info, table_results, table_awards, table_
 	# ...
 	return table
 
+
+def combine_tables(tables):
+    full_table = []
+    for i, table in enumerate(tables):
+        full_table.extend(table)
+    return full_table

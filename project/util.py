@@ -1,3 +1,5 @@
+
+
 def print_table(table):
     print()
     for row in table: print(row)
@@ -32,15 +34,19 @@ def is_float(value):
         return False
 
 
-def write_list_to_csv(myList, filePath):
+def str_to_float(value):
+    return float(value.replace(',', ''))
+
+
+def write_table(myList, filePath):
     try:
-        file=open(filePath,'w+')
+        file=open(filePath, 'w')
         for items in myList:
             for item in items:
-                file.write(item)
+                file.write(str(item))
                 file.write(",")
             file.write("\n") 
     except Exception :
-        print("数据写入失败，请检查文件路径及文件编码是否正确")
+        print("write failed，please check the file location and encoding")
     finally:
         file.close();

@@ -21,11 +21,13 @@ def main():
     # raceinfo currently encounter browser problems.
     # all_race_info = race_io.get_raceinfo(link_results)
 
-    bet_results = []
+    tables_main = []
+    tables_report = []
     for i in range(1, number_of_races + 1):
         link_i_results = link_results + "/" + race_date + "/" + race_place + "/"  + str(i)
         link_i_racecard = link_racecard + "/" + race_date + "/" + race_place + "/"  + str(i)
 
+        # input
         print("* get results from", link_i_results)
         race_info, table_results, table_awards = race_io.get_results(link_i_results)
         
@@ -33,27 +35,50 @@ def main():
         table_racecard = race_io.get_racecard(link_i_racecard)
 
         # DEBUG: show input
-        print(race_info)
+        # print(race_info)
         # util.print_table(table_results)
         # util.print_table(table_awards)
         # util.print_table(table_racecard)
         
+        # process
         print("* processing main table {}".format(i))
-        table_main = make_main.make_table(i, table_results, table_awards, table_racecard, bet_info)
-        util.write_list_to_csv(table_main, "table.csv")
-        # race_io.write_table_main(table_main)
+        table_main = make_main.make_table(
+            race_no = i, 
+            bet_info = bet_info,
+            table_results = table_results, 
+            table_awards = table_awards, 
+            table_racecard = table_racecard
+        )
 
         print("* processing report {}".format(i))
-        table_report = make_report.make_table(i, bet_info, race_info, table_results, table_awards, table_main)
+        table_report = make_report.make_table(
+            race_no = i, 
+            bet_info = bet_info, 
+            race_info = race_info, 
+            table_awards = table_awards, 
+            table_main = table_main
+        )
 
-        # DEBUG: show output
+        # DEBUG: show processing output
+        # util.write_table(table_main, "table_main.csv")
+        # util.write_table(table_report, "table_report.csv")
         # util.print_table(table_main)
-        util.print_table(table_report)
+        # util.print_table(table_report)
         
+        # output tables
+        tables_main.append(table_main)
+        tables_report.append(table_report)
     
-    # TODO: make reports
-    print("* output report")
-    # race_io.write_report()
+    print("* combine all tables")
+    combined_main = make_main.combine_tables(tables_main)
+    combined_report = make_report.combine_tables(tables_report)
+    
+    # DEBUG: show combined tables
+    util.write_table(combined_main, "table_main.csv")
+    util.write_table(combined_report, "table_report.csv")
+
+    # make_main.output(combined_main)
+    # make_report.output(combined_report)
 
     # TODO: make jockey & trainer filter
     # make_jktn.filter_jockeyntrainer()

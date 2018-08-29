@@ -65,7 +65,8 @@ def get_results(url):
     # filter valid rows
     table_results = list(filter(lambda x: len(x) > 5, table_results))
     for i, row in enumerate(table_results):
-        if i == 0: continue
+        if i == 0:
+            continue
         # join the section positions into 1 slot
         table_results[i] = row[:9] + [' '.join(row[10:len(row)-2])] + row[len(row)-2:]
     
@@ -77,8 +78,10 @@ def get_results(url):
         index = index + 1
         table_awards = make_list(tables[index])[1:]
     for i, row in enumerate(table_awards):
-        if i == 0: continue
-        if len(row) < 3: table_awards[i] = [''] + row
+        if i == 0:
+            continue
+        if len(row) < 3:
+            table_awards[i] = [''] + row
 
     return race_info, table_results, table_awards
 
