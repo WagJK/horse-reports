@@ -1,5 +1,8 @@
 
 
+def wp(wp_no, qty, table_awards, table_main):
+	return 0
 
-def calc_bet_result(bet_info, table_awards):
-	pass
+
+def big(wp_no, big_no, qty, table_awards, table_main):
+	return 0
