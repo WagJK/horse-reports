@@ -52,7 +52,7 @@ def main():
         )
 
         print("* processing report {}".format(i))
-        table_report = make_report.make_table(
+        table_report, result_info = make_report.make_table(
             race_no = i, 
             bet_info = bet_info, 
             race_info = race_info, 
@@ -68,11 +68,11 @@ def main():
         
         # output tables
         tables_main.append(table_main)
-        tables_report.append(table_report)
+        tables_report.append((table_report, result_info))
     
     print("* combine all tables")
     combined_main = make_main.combine_tables(tables_main)
-    combined_report = make_report.combine_tables(tables_report)
+    combined_report = make_report.combine_tables(tables_report, bet_info)
     
     # DEBUG: show combined tables
     util.write_table(combined_main, "table_main.csv")
@@ -80,10 +80,7 @@ def main():
 
     # make_main.output(combined_main)
     # make_report.output(combined_report)
-
-    # TODO: make jockey & trainer filter
-    # make_jktn.filter_jockeyntrainer()
-
+    
 
 if __name__ == "__main__":
     main()

@@ -13,10 +13,10 @@ index_min = 2
 
 
 def load_url(url):
-    response = urlopen(url, timeout=10)
+    response = urlopen(url)
     while response.getcode() != 200:
         print("* retry connecting " + url)
-        response = urlopen(url, timeout=10)
+        response = urlopen(url)
     soup = BeautifulSoup(response, 'lxml')
     tables = soup.find_all('table')
 
@@ -28,10 +28,10 @@ def get_betinfo(filename):
 
 def get_raceinfo(url):
     # get response from url
-    response = urlopen(url, timeout=10)
+    response = urlopen(url)
     while response.getcode() != 200:
         print("* retry connecting " + url)
-        response = urlopen(url, timeout=10)
+        response = urlopen(url)
     soup = BeautifulSoup(response, 'lxml')
     info_left = soup.find('div', class_='info').find_all('div')[0]
 
@@ -50,10 +50,10 @@ def get_results(url):
     tables = []
     while len(tables) < index_min:
         # print(len(tables), end=' ')
-        response = urlopen(url, timeout=10)
+        response = urlopen(url)
         while response.getcode() != 200:
             print("* retry connecting " + url)
-            response = urlopen(url, timeout=10)
+            response = urlopen(url)
         soup = BeautifulSoup(response, 'lxml')
         tables = soup.find_all('table')
     # print(len(tables))
@@ -114,10 +114,10 @@ def get_racecard(url):
     tables = []
     while len(tables) < index_min:
         # print(len(tables), end=' ')
-        response = urlopen(url, timeout=10)
+        response = urlopen(url)
         while response.getcode() != 200:
             print("* retry connecting " + url)
-            response = urlopen(url, timeout=10)
+            response = urlopen(url)
         soup = BeautifulSoup(response, 'lxml')
         tables = soup.find_all('table')
     # print(len(tables))
