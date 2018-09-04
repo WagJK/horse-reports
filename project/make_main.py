@@ -5,14 +5,17 @@ import util
 
 def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
     table = table_results
+    # -----------------
     # combine race info
+    # -----------------
     for i, row in enumerate(table):
         if i == 0:
             table[i].insert(0, "場次")
         else:
             table[i].insert(0, race_no)
-
+    # ----------------
     # combine hot info
+    # ----------------
     sort_arr = []
     for row in table:
         if util.is_float(row[-1]):
@@ -33,9 +36,9 @@ def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
                     table[i].append("-")
             else:
                 table[i].append("-")
-
-    
+    # ----------------
     # combine bet info
+    # ----------------
     have_bet = False
     for i, bet in enumerate(bet_info["bet"]):
         if bet["id"] == race_no:
@@ -68,8 +71,9 @@ def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
                 table[j].append("投注")
             else:
                 table[j].append("")
-
+    # ---------------------
     # combine racecard info
+    # ---------------------
     for i, row in enumerate(table):
         if i == 0:
             table[i].append("優先參賽次序")
@@ -82,8 +86,9 @@ def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
             else:
                 table[i].append('-')
                 table[i].append('-')
-
+    # ------------
     # combine odds
+    # ------------
     for i, row in enumerate(table):
         if i == 0:
             table[i].append("P賠率")
@@ -94,16 +99,25 @@ def make_table(race_no, table_results, table_awards, table_racecard, bet_info):
             table[i].append("PQ賠率2")
             table[i].append("PQ賠率3")
         else:
+            p_awards = table_awards[2][1]
+            q_awards = table_awards[3][1]
+            pq_awards = table_awards[4][1]
             # P1/2/3
-            for j in range(2, 5):
-                if table_awards[j][1] == table[i][1]:
-                    table[i].append(table_awards[j][2])
+            for j in range(3):
+                if p_awards[j][0] == table[i][1]:
+                    table[i].append(p_awards[j][1])
                 else: table[i].append('')
-            # Queue & PQ1/2/3
-            for j in range(5, 9):
-                horse_number = table_awards[j][1].split(',')
+            # Queue
+            for j in range(1):
+                horse_number = q_awards[j][0].split(',')
                 if horse_number[0] == table[i][1] or horse_number[1] == table[i][1]:
-                    table[i].append(table_awards[j][2])
+                    table[i].append(q_awards[j][1])
+                else: table[i].append('')
+            # Pos-Queue
+            for j in range(3):
+                horse_number = pq_awards[j][0].split(',')
+                if horse_number[0] == table[i][1] or horse_number[1] == table[i][1]:
+                    table[i].append(pq_awards[j][1])
                 else: table[i].append('')
     return table
 

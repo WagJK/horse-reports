@@ -1,5 +1,6 @@
 import util
 import calc
+import time
 import race_io
 import make_main
 import make_jktn

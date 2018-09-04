@@ -5,15 +5,24 @@ import calc
 
 
 def make_table(race_no, bet_info, race_info, table_awards, table_main):
+    w_awards = table_awards[1][1]
+    p_awards = table_awards[2][1]
+    q_awards = table_awards[3][1]
+    pq_awards = table_awards[4][1]
+
+    # --------------------------------
+    # add general info (first 3 lines)
+    # --------------------------------
     table = []
     table.append([race_info["tag"]]) 
-    # 1st win odds, queue odds, 1st hot performance
-    table.append([util.str_to_float(table_awards[1][2]), util.str_to_float(table_awards[5][2])])
-    # 2nd pos odds, 2nd hot performance
-    table.append([util.str_to_float(table_awards[3][2]), ''])
-    # 3rd pos odds
-    table.append([util.str_to_float(table_awards[4][2])])
-    # add hot performance now
+    # win odds, queue odds, !1st hot performance
+    table.append([util.str_to_float(w_awards[0][1]), util.str_to_float(q_awards[0][1])])
+    # pos odds, !2nd hot performance
+    for i, pair in enumerate(p_awards):
+        if i == 0: continue
+        table.append([util.str_to_float(p_awards[i][1])])
+    table[2].append("")
+    # add hot performance
     thead = table_main[0]
     for i, row in enumerate(table_main):
         if i == 0: continue
@@ -34,7 +43,9 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
             else:
                 table[2].append("h {} - {}".format(i, dist))
     
+    # -----------------------
     # add bet & win/loss info
+    # -----------------------
     for bet in bet_info["bet"]:
         if bet["id"] == race_no:
             # WP
@@ -46,7 +57,7 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
                     dist = row[thead.index("頭馬距離")]
                     # WP: append info row
                     table.append([
-                        "{}号 {}".format(bet["WP"], wp_name), ''
+                        "{}号 {}".format(bet["WP"], wp_name), '',
                         "W {} P {}".format(bet_info["qty"]["W"], bet_info["qty"]["P"])
                     ])
                     # WP: append result row
@@ -57,12 +68,14 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
                     else:
                         table.append(['', '', "{} - {}".format(i, dist)])
                     # WP: append win/loss row
-                    table.append(['', '', "${}".format(calc.wp(
+                    result = calc.wp(
                         wp_no = bet["WP"],
                         qty = bet_info["qty"], 
                         table_awards = table_awards, 
                         table_main = table_main
-                    ))])
+                    )
+                    table.append(['', '', "${}".format(result)])
+
             # Each Big
             for big in bet["Big"]:
                 for i, row in enumerate(table_main):
@@ -72,7 +85,7 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
                         dist = row[thead.index("頭馬距離")]
                         # Big: append info row
                         table.append([
-                            "{}号 {} + {}号 {}".format(bet["WP"], wp_name, big, big_name), ''
+                            "{}号 {} + {}号 {}".format(bet["WP"], wp_name, big, big_name), '',
                             "Q {} PQ {}".format(bet_info["qty"]["Q"], bet_info["qty"]["PQ"])
                         ])
                         # Big: append result row
@@ -83,14 +96,18 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
                         else:
                             table.append(['', '', "{}号 {} {} - {}".format(big, big_name, i, dist)])
                         # Big: append win/loss row
-                        table.append(['', '', "${}".format(calc.big(
+                        result = calc.big(
                             wp_no = bet["WP"],
                             big_no = big,
                             qty = bet_info["qty"], 
                             table_awards = table_awards, 
                             table_main = table_main
-                        ))])
-    # TODO: output overall win/loss and bet results
+                        )
+                        table.append(['', '', "${}".format(result)])
+    
+    # ---------------------------------------
+    # output overall win/loss and bet results
+    # ---------------------------------------
     # ....
     return table
 
