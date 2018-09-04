@@ -3,7 +3,6 @@ import calc
 import time
 import race_io
 import make_main
-import make_jktn
 import make_report
 import bet_results
 
@@ -45,6 +44,7 @@ def main():
         print("* processing main table {}".format(i))
         table_main = make_main.make_table(
             race_no = i, 
+            race_info = race_info,
             bet_info = bet_info,
             table_results = table_results, 
             table_awards = table_awards, 
@@ -54,8 +54,8 @@ def main():
         print("* processing report {}".format(i))
         table_report, result_info = make_report.make_table(
             race_no = i, 
-            bet_info = bet_info, 
             race_info = race_info, 
+            bet_info = bet_info, 
             table_awards = table_awards, 
             table_main = table_main
         )
