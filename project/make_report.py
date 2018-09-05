@@ -34,7 +34,7 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
         if hot == "1st Hot":
             if i == 1:
                 H_W += 1
-                table[1].append("H W + {}".format(dist))
+                table[1].append("H W + {}".format(table_main[2][thead.index("頭馬距離")]))
             elif i == 2:
                 H_Q += 1
                 table[1].append("H Q - {}".format(dist))
@@ -47,7 +47,7 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
         elif hot == "2nd Hot":
             if i == 1:
                 h_W += 1
-                table[2].append("h W + {}".format(dist))
+                table[2].append("h W + {}".format(table_main[2][thead.index("頭馬距離")]))
             elif i == 2:
                 h_Q += 1
                 table[2].append("h Q - {}".format(dist))
@@ -79,7 +79,7 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
                     ])
                     # WP: append result row
                     if i == 1:
-                        table.append(['', '', "W + {}".format(dist)])
+                        table.append(['', '', "W + {}".format(table_main[2][thead.index("頭馬距離")])])
                     elif i <= 3:
                         table.append(['', '', "Q - {}".format(dist)])
                     else:
@@ -111,7 +111,7 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
                         ])
                         # Big: append result row
                         if i == 1:
-                            table.append(['', '', "{}号 {} W + {}".format(big, big_name, dist)])
+                            table.append(['', '', "{}号 {} W + {}".format(big, big_name, table_main[2][thead.index("頭馬距離")])])
                         elif i <= 3:
                             table.append(['', '', "{}号 {} Q - {}".format(big, big_name, dist)])
                         else:
