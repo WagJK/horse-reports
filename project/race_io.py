@@ -23,7 +23,7 @@ def load_url(url):
 
 def get_betinfo(filename):
     bet = json.load(open(filename, 'r'))
-    return bet
+    return bet[0]
 
 
 def get_raceinfo(url):

@@ -5,8 +5,7 @@ import race_io
 import make_main
 import make_report
 import bet_results
-
-from shutil import copyfile
+import shutil
 
 
 link_results = "http://racing.hkjc.com/racing/Info/Meeting/Results/Chinese/Local"
@@ -82,7 +81,11 @@ def main():
 
     print("* output main & report")
     y, m, d = util.convert_date(bet_info["date"])
-    copyfile("output/Data Base (2018-2019).csv", "output/backup/Data Base (2018-2019).csv")# backup
+    # backup files
+    shutil.copyfile(
+        "output/Data Base (2018-2019).csv", 
+        "backup/Data Base (2018-2019) pre-{}-{}.csv".format(m,d)
+    ) # main table
     make_main.output(combined_main, "output/Data Base (2018-2019).csv")
     make_report.output(combined_report, "output/Horse Report {}-{}-{}.csv".format(y, m, d))
     

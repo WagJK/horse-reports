@@ -16,6 +16,8 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             table[i].insert(0, "長度")
             table[i].insert(0, "班次")
             table[i].insert(0, "場次")
+            table[i].insert(0, "度地儀指數")
+            table[i].insert(0, "地點")
             table[i].insert(0, "日期")
         else:
             tags = race_info["tag"].split(" - ")
@@ -26,6 +28,8 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             table[i].insert(0, tags[1])
             table[i].insert(0, tags[0])
             table[i].insert(0, race_no)
+            table[i].insert(0, bet_info["ddy"])
+            table[i].insert(0, bet_info["place"])
             table[i].insert(0, "{}/{}/{}".format(y, m, d))
     # ----------------
     # combine hot info
@@ -54,14 +58,18 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
     # combine bet info
     # ----------------
     have_bet = False
+    thead = table[0]
     for i, bet in enumerate(bet_info["bet"]):
         if bet["id"] == race_no:
             have_bet = True
             for j, row in enumerate(table):
                 # append bet for this row
+                horse_number = row[thead.index("馬號")]
                 if j == 0:
                     table[j].append("投注")
-                elif row[1] == bet["WP"]:
+                elif not util.is_int(horse_number):
+                    table[j].append("-")
+                elif int(horse_number) == bet["WP"]:
                     table[j].append("W P")
                     # see which WP according to number of Bigs
                     if len(bet["Big"]) > 1:
@@ -69,16 +77,16 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
                             table[j][-1] += " Big{}(PQ)".format(k+1)
                     elif len(bet["Big"]) != 0:
                         table[j][-1] += " Big(PQ)"
-                elif row[1] in bet["Big"]:
+                elif int(horse_number) in bet["Big"]:
                     # see which Big it is
                     if len(bet["Big"]) != 1:
                         for k in range(len(bet["Big"])):
-                            if bet["Big"][k] == row[1]:
+                            if int(horse_number) == bet["Big"][k]:
                                 table[j].append("Big{}(PQ)".format(k+1))
                     else:
                         table[j].append("Big(PQ)")
                 else:
-                    table[j].append("")
+                    table[j].append("-")
     if not have_bet:
         for j, row in enumerate(table):
             if j == 0:
