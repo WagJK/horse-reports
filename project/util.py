@@ -42,6 +42,13 @@ def str_to_float(value):
     return float(value.replace(',', ''))
 
 
+def convert_date(s):
+    y, m, d = s[:4], s[4:6], s[6:]
+    if m[0] == '0': m = m[1:]
+    if d[0] == '0': d = d[1:]
+    return y, m, d
+
+
 def write_table(myList, filePath):
     try:
         file = open(filePath, 'w')

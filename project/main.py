@@ -6,6 +6,8 @@ import make_main
 import make_report
 import bet_results
 
+from shutil import copyfile
+
 
 link_results = "http://racing.hkjc.com/racing/Info/Meeting/Results/Chinese/Local"
 link_racecard = "http://racing.hkjc.com/racing/Info/Meeting/RaceCard/Chinese/Local"
@@ -18,7 +20,6 @@ def main():
     race_date, race_place, number_of_races = bet_info['date'], bet_info['place'], bet_info['races']
 
     print("* get race info from", link_raceinfo)
-    # raceinfo currently encounter browser problems.
     # all_race_info = race_io.get_raceinfo(link_results)
 
     tables_main = []
@@ -67,6 +68,7 @@ def main():
         # util.print_table(table_report)
         
         # output tables
+        print("* append table to the table list")
         tables_main.append(table_main)
         tables_report.append((table_report, result_info))
     
@@ -77,9 +79,10 @@ def main():
     # DEBUG: show combined tables
     # util.write_table(combined_main, "table_main.csv")
     # util.write_table(combined_report, "table_report.csv")
-    y, m, d = bet_info["date"][:4], bet_info["date"][4:6], bet_info["date"][6:]
-    if m[0] == '0': m = m[1:]
-    if d[0] == '0': d = d[1:]
+
+    print("* output main & report")
+    y, m, d = util.convert_date(bet_info["date"])
+    copyfile("output/Data Base (2018-2019).csv", "output/backup/Data Base (2018-2019).csv")# backup
     make_main.output(combined_main, "output/Data Base (2018-2019).csv")
     make_report.output(combined_report, "output/Horse Report {}-{}-{}.csv".format(y, m, d))
     

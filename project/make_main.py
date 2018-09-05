@@ -19,10 +19,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             table[i].insert(0, "日期")
         else:
             tags = race_info["tag"].split(" - ")
-            y, m, d = bet_info["date"][:4], bet_info["date"][4:6], bet_info["date"][6:]
-            if m[0] == '0': m = m[1:]
-            if d[0] == '0': d = d[1:]
-
+            y, m, d = util.convert_date(bet_info["date"])
             table[i].insert(0, race_info["track"][5:])
             table[i].insert(0, race_info["cond"][7:])
             table[i].insert(0, tags[2])
@@ -152,4 +149,4 @@ def combine_tables(tables):
 
 
 def output(table, filename):
-    util.write_table_append(table, filename)
+    util.write_table_append(table[1:], filename)
