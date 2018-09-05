@@ -14,7 +14,7 @@ def make_table(race_no, bet_info, race_info, table_awards, table_main):
     # add general info (first 3 lines)
     # --------------------------------
     table = []
-    table.append([race_info["tag"]]) 
+    table.append(["（{}）{}".format(race_no, race_info["tag"])]) 
     # win odds, queue odds, !1st hot performance
     table.append([util.str_to_float(w_awards[0][1]), util.str_to_float(q_awards[0][1])])
     # pos odds, !2nd hot performance
