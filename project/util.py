@@ -46,9 +46,10 @@ def write_table(myList, filePath):
     try:
         file = open(filePath, 'w')
         for items in myList:
-            for item in items:
+            for i, item in enumerate(items):
                 file.write(str(item))
-                file.write("\t")
+                if i != len(items) - 1:
+                    file.write("\t")
             file.write("\n") 
     except Exception :
         print("write failed，please check the file location and encoding")
@@ -60,9 +61,10 @@ def write_table_append(myList, filePath):
     try:
         file = open(filePath, 'a')
         for items in myList:
-            for item in items:
+            for i, item in enumerate(items):
                 file.write(str(item))
-                file.write("\t")
+                if i != len(items) - 1:
+                    file.write("\t")
             file.write("\n") 
     except Exception :
         print("write failed，please check the file location and encoding")
