@@ -48,7 +48,7 @@ def write_table(myList, filePath):
         for items in myList:
             for i, item in enumerate(items):
                 file.write(str(item))
-                if i != len(items) - 1:
+                if not i == len(items) - 1:
                     file.write("\t")
             file.write("\n") 
     except Exception :
@@ -63,7 +63,7 @@ def write_table_append(myList, filePath):
         for items in myList:
             for i, item in enumerate(items):
                 file.write(str(item))
-                if i != len(items) - 1:
+                if not i == len(items) - 1:
                     file.write("\t")
             file.write("\n") 
     except Exception :
