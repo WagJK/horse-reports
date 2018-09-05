@@ -48,7 +48,7 @@ def write_table(myList, filePath):
         for items in myList:
             for item in items:
                 file.write(str(item))
-                file.write(",")
+                file.write("\t")
             file.write("\n") 
     except Exception :
         print("write failed，please check the file location and encoding")
@@ -62,7 +62,7 @@ def write_table_append(myList, filePath):
         for items in myList:
             for item in items:
                 file.write(str(item))
-                file.write(",")
+                file.write("\t")
             file.write("\n") 
     except Exception :
         print("write failed，please check the file location and encoding")
