@@ -204,3 +204,7 @@ def combine_tables(tables, bet_info):
     full_table.append(["h {}".format(format_hot_str(h_W, h_Q, h_P, h_L))])
     full_table.append(["L {}".format(format_hot_str(L_W, L_Q, L_P, L_L))])
     return full_table
+
+
+def output(table, filename):
+    util.write_table(table, filename)

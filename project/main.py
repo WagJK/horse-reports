@@ -75,11 +75,13 @@ def main():
     combined_report = make_report.combine_tables(tables_report, bet_info)
     
     # DEBUG: show combined tables
-    util.write_table(combined_main, "table_main.csv")
-    util.write_table(combined_report, "table_report.csv")
-
-    # make_main.output(combined_main)
-    # make_report.output(combined_report)
+    # util.write_table(combined_main, "table_main.csv")
+    # util.write_table(combined_report, "table_report.csv")
+    y, m, d = bet_info["date"][:4], bet_info["date"][4:6], bet_info["date"][6:]
+    if m[0] == '0': m = m[1:]
+    if d[0] == '0': d = d[1:]
+    make_main.output(combined_main, "output/Data Base (2018-2019).csv")
+    make_report.output(combined_report, "output/Horse Report {}-{}-{}.csv".format(y, m, d))
     
 
 if __name__ == "__main__":

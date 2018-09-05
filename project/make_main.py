@@ -124,19 +124,19 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             # P1/2/3
             for j in range(3):
                 if p_awards[j][0] == table[i][col_horse_no]:
-                    table[i].append(p_awards[j][1])
+                    table[i].append(util.str_to_float(p_awards[j][1]))
                 else: table[i].append('')
             # Queue
             for j in range(1):
                 horse_number = q_awards[j][0].split(',')
                 if horse_number[0] == table[i][col_horse_no] or horse_number[1] == table[i][col_horse_no]:
-                    table[i].append(q_awards[j][1])
+                    table[i].append(util.str_to_float(q_awards[j][1]))
                 else: table[i].append('')
             # Pos-Queue
             for j in range(3):
                 horse_number = pq_awards[j][0].split(',')
                 if horse_number[0] == table[i][col_horse_no] or horse_number[1] == table[i][col_horse_no]:
-                    table[i].append(pq_awards[j][1])
+                    table[i].append(util.str_to_float(pq_awards[j][1]))
                 else: table[i].append('')
     return table
 
@@ -149,3 +149,7 @@ def combine_tables(tables):
         else:
             full_table.extend(table[1:])
     return full_table
+
+
+def output(table, filename):
+    util.write_table_append(table, filename)

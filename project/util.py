@@ -44,7 +44,21 @@ def str_to_float(value):
 
 def write_table(myList, filePath):
     try:
-        file=open(filePath, 'w')
+        file = open(filePath, 'w')
+        for items in myList:
+            for item in items:
+                file.write(str(item))
+                file.write(",")
+            file.write("\n") 
+    except Exception :
+        print("write failed，please check the file location and encoding")
+    finally:
+        file.close();
+
+
+def write_table_append(myList, filePath):
+    try:
+        file = open(filePath, 'a')
         for items in myList:
             for item in items:
                 file.write(str(item))
