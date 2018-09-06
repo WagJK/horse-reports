@@ -200,9 +200,9 @@ def combine_tables(tables, bet_info):
     # format the overall win/loss string
     str_result = format_result_str(total_W, total_P, total_Q, total_PQ, total_L)
     full_table.append(["{} ${} (另有${}回馈)".format(str_result, total_result, total_feedback)])
-    full_table.append(["H {}".format(format_hot_str(H_W, H_Q, H_P, H_L))])
-    full_table.append(["h {}".format(format_hot_str(h_W, h_Q, h_P, h_L))])
-    full_table.append(["L {}".format(format_hot_str(L_W, L_Q, L_P, L_L))])
+    # full_table.append(["H {}".format(format_hot_str(H_W, H_Q, H_P, H_L))])
+    # full_table.append(["h {}".format(format_hot_str(h_W, h_Q, h_P, h_L))])
+    # full_table.append(["L {}".format(format_hot_str(L_W, L_Q, L_P, L_L))])
     return full_table
 
 

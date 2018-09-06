@@ -16,8 +16,6 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             table[i].insert(0, "長度")
             table[i].insert(0, "班次")
             table[i].insert(0, "場次")
-            table[i].insert(0, "度地儀指數")
-            table[i].insert(0, "地點")
             table[i].insert(0, "日期")
         else:
             tags = race_info["tag"].split(" - ")
@@ -28,8 +26,6 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             table[i].insert(0, tags[1])
             table[i].insert(0, tags[0])
             table[i].insert(0, race_no)
-            table[i].insert(0, bet_info["ddy"])
-            table[i].insert(0, bet_info["place"])
             table[i].insert(0, "{}/{}/{}".format(y, m, d))
     # ----------------
     # combine hot info
@@ -92,7 +88,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             if j == 0:
                 table[j].append("投注")
             else:
-                table[j].append("")
+                table[j].append("-")
     # ---------------------
     # combine racecard info
     # ---------------------
@@ -100,7 +96,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
     col_horse_no = thead.index("馬號")
     for i, row in enumerate(table):
         if i == 0:
-            table[i].append("優先參賽次序")
+            table[i].append("皇牌")
             table[i].append("配備")
         else:
             if row[1] != '' and util.is_int(row[col_horse_no]):
@@ -110,6 +106,19 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             else:
                 table[i].append('-')
                 table[i].append('-')
+    # -------------------
+    # combine place & ddy
+    # -------------------
+    for i, row in enumerate(table):
+        if i == 0:
+            table[i].append("地點")
+            table[i].append("度地儀")
+        else:
+            if bet_info["place"] == "ST":
+                table[i].append("沙田")
+            else:
+                table[i].append("跑馬地")
+            table[i].append(bet_info["ddy"])
     # ------------
     # combine odds
     # ------------
