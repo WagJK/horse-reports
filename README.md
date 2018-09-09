@@ -1,7 +1,7 @@
 # Horse Report - new project
 TODO:
 * report: header - general info in report
-* report: L don't know meaning
+
 
 DONE:
 * crawler: additional race not handled
@@ -13,6 +13,7 @@ DONE:
 * output: w+ accumulated output
 
 ISSUES:
-* report: race info encounter browser problems (aspx?)
+* ? report: race info encounter browser problems (aspx?)
 * ? 1st hot and 2nd hot separation on new site
 * ? make_jktn: jockey and trainer filter
+* ? report: L don't know meaning

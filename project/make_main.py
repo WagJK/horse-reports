@@ -136,18 +136,18 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             q_awards = table_awards[3][1]
             pq_awards = table_awards[4][1]
             # P1/2/3
-            for j in range(3):
+            for j in range(len(p_awards)):
                 if p_awards[j][0] == table[i][col_horse_no]:
                     table[i].append(util.str_to_float(p_awards[j][1]))
                 else: table[i].append('')
             # Queue
-            for j in range(1):
+            for j in range(len(q_awards)):
                 horse_number = q_awards[j][0].split(',')
                 if horse_number[0] == table[i][col_horse_no] or horse_number[1] == table[i][col_horse_no]:
                     table[i].append(util.str_to_float(q_awards[j][1]))
                 else: table[i].append('')
             # Pos-Queue
-            for j in range(3):
+            for j in range(len(pq_awards)):
                 horse_number = pq_awards[j][0].split(',')
                 if horse_number[0] == table[i][col_horse_no] or horse_number[1] == table[i][col_horse_no]:
                     table[i].append(util.str_to_float(pq_awards[j][1]))
