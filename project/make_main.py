@@ -22,7 +22,11 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             y, m, d = util.convert_date(bet_info["date"])
             table[i].insert(0, race_info["track"][5:])
             table[i].insert(0, race_info["cond"][7:])
-            table[i].insert(0, tags[2])
+            # 分數範圍 sometimes does not exist 
+            if len(tags) > 2:
+                table[i].insert(0, tags[2])
+            else:
+                table[i].insert(0, '')
             table[i].insert(0, tags[1])
             table[i].insert(0, tags[0])
             table[i].insert(0, race_no)
