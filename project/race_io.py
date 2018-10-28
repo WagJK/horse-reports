@@ -77,7 +77,7 @@ def get_results(url):
         index = index + 1
         table_results = make_list(tables[index])
     # filter valid rows
-    table_results = list(filter(lambda x: len(x) > 5, table_results))
+    table_results = list(filter(lambda x: len(x) > 10, table_results))
     for i, row in enumerate(table_results):
         if i == 0: continue
         # join the section positions into 1 slot
