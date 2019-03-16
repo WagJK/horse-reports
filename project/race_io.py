@@ -3,6 +3,7 @@ import util
 import pprint
 import requests
 from bs4 import BeautifulSoup
+from selenium import webdriver
 from urllib.request import urlopen
 from util import make_list
 from util import print_table
@@ -12,15 +13,6 @@ pp = pprint.PrettyPrinter()
 index_min = 2
 
 
-def load_url(url):
-    response = urlopen(url)
-    while response.getcode() != 200:
-        print("* retry connecting " + url)
-        response = urlopen(url)
-    soup = BeautifulSoup(response, 'lxml')
-    tables = soup.find_all('table')
-
-
 def get_betinfo(filename):
     bet = json.load(open(filename, 'r'))
     return bet[0]
@@ -28,16 +20,16 @@ def get_betinfo(filename):
 
 def get_raceinfo(url):
     # get response from url
-    response = urlopen(url)
-    while response.getcode() != 200:
-        print("* retry connecting " + url)
-        response = urlopen(url)
-    soup = BeautifulSoup(response, 'lxml')
+    driver = webdriver.Chrome()
+    driver.implicitly_wait(3)
+    driver.get(url)
+    soup = BeautifulSoup(driver.page_source, 'lxml')
     info_left = soup.find('div', class_='info').find_all('div')[0]
 
     course = ' '.join(list(map(lambda x: x.get_text(), info_left.find_all('p')[1:-1])))
     place = info_left.find_all('p')[0].find('span').get_text()
     ddy_index = info_left.find('p', class_='f_ffChinese').get_text().replace(" ", "").split("\n")[1]
+
     return {
         'course': course,
         'place': place,
@@ -50,22 +42,23 @@ def get_results(url):
     tables = []
     while len(tables) < index_min:
         # print(len(tables), end=' ')
-        response = urlopen(url)
-        while response.getcode() != 200:
-            print("* retry connecting " + url)
-            response = urlopen(url)
-        soup = BeautifulSoup(response, 'lxml')
+        driver = webdriver.Chrome()
+        driver.implicitly_wait(3)
+        driver.get(url)
+        soup = BeautifulSoup(driver.page_source, 'lxml')
         tables = soup.find_all('table')
     # print(len(tables))
-    
+
     # get race info per race
-    info_panel = tables[3]
-    info = list(map(lambda x: x.get_text(), info_panel.find_all('td')[:6]))
+    info_panel = tables[1]
+    print(info_panel)
+    info = list(map(lambda x: x.get_text(), info_panel.find_all('td')))
+    print(info)
     race_info = {
-        'tag': info[0],
-        'name': info[3],
-        'cond': info[1] + ' ' + info[2],
-        'track': info[4] + ' ' + info[5]
+        'tag': info[6],
+        'name': info[9],
+        'cond': info[7] + ' ' + info[8],
+        'track': info[10] + ' ' + info[11]
     }
     # -------------------------
     # input and process results
@@ -99,9 +92,9 @@ def get_results(url):
         if util.is_even(len(row)):
             table_awards[i-1] += row
     table_awards = list(map(
-        lambda x: [x[0], list(zip(x[1::2], x[2::2]))], 
+        lambda x: [x[0], list(zip(x[1::2], x[2::2]))],
         list(filter(
-            lambda x: not util.is_even(len(x)), 
+            lambda x: not util.is_even(len(x)),
             table_awards
         ))
     ))
@@ -114,14 +107,13 @@ def get_racecard(url):
     tables = []
     while len(tables) < index_min:
         # print(len(tables), end=' ')
-        response = urlopen(url)
-        while response.getcode() != 200:
-            print("* retry connecting " + url)
-            response = urlopen(url)
-        soup = BeautifulSoup(response, 'lxml')
+        driver = webdriver.Chrome()
+        driver.implicitly_wait(3)
+        driver.get(url)
+        soup = BeautifulSoup(driver.page_source, 'lxml')
         tables = soup.find_all('table')
     # print(len(tables))
-    
+
     # input and process racecard
     table_racecard = make_list(tables[8])
     return table_racecard

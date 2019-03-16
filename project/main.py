@@ -30,33 +30,33 @@ def main():
         # input
         print("* get results from", link_i_results)
         race_info, table_results, table_awards = race_io.get_results(link_i_results)
-        
+
         print("* get racecard from", link_i_racecard)
         table_racecard = race_io.get_racecard(link_i_racecard)
 
         # DEBUG: show input
-        # print(race_info)
-        # util.print_table(table_results)
-        # util.print_table(table_awards)
-        # util.print_table(table_racecard)
-        
+        print(race_info)
+        util.print_table(table_results)
+        util.print_table(table_awards)
+        util.print_table(table_racecard)
+
         # process
         print("* processing main table {}".format(i))
         table_main = make_main.make_table(
-            race_no = i, 
+            race_no = i,
             race_info = race_info,
             bet_info = bet_info,
-            table_results = table_results, 
-            table_awards = table_awards, 
+            table_results = table_results,
+            table_awards = table_awards,
             table_racecard = table_racecard
         )
 
         print("* processing report {}".format(i))
         table_report, result_info = make_report.make_table(
-            race_no = i, 
-            race_info = race_info, 
-            bet_info = bet_info, 
-            table_awards = table_awards, 
+            race_no = i,
+            race_info = race_info,
+            bet_info = bet_info,
+            table_awards = table_awards,
             table_main = table_main
         )
 
@@ -65,16 +65,16 @@ def main():
         # util.write_table(table_report, "table_report.csv")
         # util.print_table(table_main)
         # util.print_table(table_report)
-        
+
         # output tables
         print("* append table to the table list")
         tables_main.append(table_main)
         tables_report.append((table_report, result_info))
-    
+
     print("* combine all tables")
     combined_main = make_main.combine_tables(tables_main)
     combined_report = make_report.combine_tables(tables_report, bet_info)
-    
+
     # DEBUG: show combined tables
     # util.write_table(combined_main, "table_main.csv")
     # util.write_table(combined_report, "table_report.csv")
@@ -83,12 +83,12 @@ def main():
     y, m, d = util.convert_date(bet_info["date"])
     # backup files
     shutil.copyfile(
-        "output/Data Base (2018-2019).csv", 
+        "output/Data Base (2018-2019).csv",
         "backup/Data Base (2018-2019) pre-{}-{}.csv".format(m,d)
     ) # main table
     make_main.output(combined_main, "output/Data Base (2018-2019).csv")
     make_report.output(combined_report, "output/Horse Report {}-{}-{}.csv".format(y, m, d))
-    
+
 
 if __name__ == "__main__":
     main()
