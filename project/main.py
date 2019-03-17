@@ -35,10 +35,10 @@ def main():
         table_racecard = race_io.get_racecard(link_i_racecard)
 
         # DEBUG: show input
-        print(race_info)
-        util.print_table(table_results)
-        util.print_table(table_awards)
-        util.print_table(table_racecard)
+        # print(race_info)
+        # util.print_table(table_results)
+        # util.print_table(table_awards)
+        # util.print_table(table_racecard)
 
         # process
         print("* processing main table {}".format(i))

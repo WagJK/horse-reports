@@ -51,9 +51,7 @@ def get_results(url):
 
     # get race info per race
     info_panel = tables[1]
-    print(info_panel)
     info = list(map(lambda x: x.get_text(), info_panel.find_all('td')))
-    print(info)
     race_info = {
         'tag': info[6],
         'name': info[9],
