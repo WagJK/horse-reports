@@ -13,7 +13,16 @@ def make_list(table):
         allcols = row.findAll('td')
         for col in allcols:
             thestrings = [str(s).strip('\r\n ').replace('\xa0', ' ') for s in col.findAll(text=True)]
-            thetext = ''.join(thestrings)
+            thestrings = list(filter(lambda x: x != '', thestrings))
+            if not all(list(map(lambda x: x.isdigit(), thestrings))):
+                thetext = ''.join(thestrings)
+            else:
+                if len(thestrings) > 0:
+                    thetext = thestrings[0]
+                    for s in thestrings[1:]:
+                        thetext = thetext + " " + s
+                else:
+                    thetext = ""
             result[-1].append(thetext)
     return result
 
@@ -57,7 +66,7 @@ def write_table(myList, filePath):
                 file.write(str(item))
                 if not i == len(items) - 1:
                     file.write("\t")
-            file.write("\n") 
+            file.write("\n")
     except Exception :
         print("write failed，please check the file location and encoding")
     finally:
@@ -72,7 +81,7 @@ def write_table_append(myList, filePath):
                 file.write(str(item))
                 if not i == len(items) - 1:
                     file.write("\t")
-            file.write("\n") 
+            file.write("\n")
     except Exception :
         print("write failed，please check the file location and encoding")
     finally:

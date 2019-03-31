@@ -72,7 +72,7 @@ def get_results(url):
     for i, row in enumerate(table_results):
         if i == 0: continue
         # join the section positions into 1 slot
-        table_results[i] = row[:9] + [' '.join(row[10:len(row)-2])] + row[len(row)-2:]
+        table_results[i] = row
 
     # -----------------------------
     # input and process award rates
