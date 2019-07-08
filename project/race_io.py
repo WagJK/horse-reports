@@ -2,6 +2,7 @@ import json
 import util
 import pprint
 import requests
+import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from urllib.request import urlopen
@@ -21,8 +22,9 @@ def get_betinfo(filename):
 def get_raceinfo(url):
     # get response from url
     driver = webdriver.Chrome()
-    driver.implicitly_wait(3)
     driver.get(url)
+    time.sleep(3)
+    # driver.implicitly_wait(3)
     soup = BeautifulSoup(driver.page_source, 'lxml')
     info_left = soup.find('div', class_='info').find_all('div')[0]
 
@@ -43,8 +45,9 @@ def get_results(url):
     while len(tables) < index_min:
         # print(len(tables), end=' ')
         driver = webdriver.Chrome()
-        driver.implicitly_wait(3)
         driver.get(url)
+        time.sleep(3)
+        # driver.implicitly_wait(3)
         soup = BeautifulSoup(driver.page_source, 'lxml')
         tables = soup.find_all('table')
     # print(len(tables))
@@ -106,8 +109,9 @@ def get_racecard(url):
     while len(tables) < index_min:
         # print(len(tables), end=' ')
         driver = webdriver.Chrome()
-        driver.implicitly_wait(3)
         driver.get(url)
+        time.sleep(3)
+        # driver.implicitly_wait(3)
         soup = BeautifulSoup(driver.page_source, 'lxml')
         tables = soup.find_all('table')
     # print(len(tables))
