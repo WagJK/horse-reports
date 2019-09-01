@@ -4,7 +4,6 @@ import time
 import race_io
 import make_main
 import make_report
-import bet_results
 import shutil
 
 

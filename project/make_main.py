@@ -22,7 +22,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             y, m, d = util.convert_date(bet_info["date"])
             table[i].insert(0, race_info["track"][5:])
             table[i].insert(0, race_info["cond"][7:])
-            # 分數範圍 sometimes does not exist 
+            # 分數範圍 sometimes does not exist
             if len(tags) > 2:
                 table[i].insert(0, tags[2])
             else:
@@ -102,6 +102,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
         if i == 0:
             table[i].append("皇牌")
             table[i].append("配備")
+            table[i].append("操練")
         else:
             if row[1] != '' and util.is_int(row[col_horse_no]):
                 horse_number = int(row[col_horse_no])
@@ -110,6 +111,8 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             else:
                 table[i].append('-')
                 table[i].append('-')
+            # TODO TODO TODO
+            table[i].append(' ') # 操練
     # -------------------
     # combine place & ddy
     # -------------------
