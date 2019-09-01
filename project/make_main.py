@@ -112,7 +112,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
                 table[i].append('-')
                 table[i].append('-')
             # TODO TODO TODO
-            table[i].append(' ') # 操練
+            table[i].append('') # 操練
     # -------------------
     # combine place & ddy
     # -------------------
