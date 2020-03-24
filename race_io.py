@@ -11,7 +11,7 @@ from util import print_table
 
 pp = pprint.PrettyPrinter()
 
-index_min = 2
+INDEX_MIN = 2
 
 
 def get_betinfo(filename):
@@ -42,7 +42,7 @@ def get_raceinfo(url):
 def get_results(url):
     # get response from url
     tables = []
-    while len(tables) < index_min:
+    while len(tables) < INDEX_MIN:
         # print(len(tables), end=' ')
         driver = webdriver.Chrome()
         driver.get(url)
@@ -64,8 +64,8 @@ def get_results(url):
     # -------------------------
     # input and process results
     # -------------------------
-    index = index_min
-    table_results = make_list(tables[index_min])
+    index = INDEX_MIN
+    table_results = make_list(tables[INDEX_MIN])
     # try out the index of the awards table
     while len(table_results) == 0 or len(table_results[0]) == 0 or table_results[0][0] != "名次":
         index = index + 1
@@ -80,8 +80,8 @@ def get_results(url):
     # -----------------------------
     # input and process award rates
     # -----------------------------
-    index = index_min
-    table_awards = make_list(tables[index_min])
+    index = INDEX_MIN
+    table_awards = make_list(tables[INDEX_MIN])
     # try out the index of the awards table
     while len(table_awards) == 0 or len(table_awards[0]) == 0 or table_awards[0][0] != "派彩":
         index = index + 1
@@ -106,7 +106,7 @@ def get_results(url):
 def get_racecard(url):
     # get response from url
     tables = []
-    while len(tables) < index_min:
+    while len(tables) < INDEX_MIN:
         # print(len(tables), end=' ')
         driver = webdriver.Chrome()
         driver.get(url)
