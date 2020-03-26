@@ -1,6 +1,37 @@
 import time
 import math
+import json
 import util
+import pprint
+import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from urllib.request import urlopen
+from util import make_list
+from util import print_table
+
+INDEX_MIN = 2
+link_horseinfo = "https://racing.hkjc.com/racing/information/chinese/Horse/HorseSearch.aspx?HorseName=&SearchType=BrandNumber&BrandNumber="
+
+def get_age(url, horse_id):
+    # get response from url
+    tables = []
+    while len(tables) < INDEX_MIN:
+        # print(len(tables), end=' ')
+        driver = webdriver.Chrome()
+        driver.get(url + horse_id)
+        time.sleep(3)
+        # driver.implicitly_wait(3)
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        tables = soup.find_all('table')
+        driver.quit()
+    if (len(tables) <= 4):
+        return "-"
+    if make_list(tables[4])[0][0] != "出生地 / 馬齡":
+        return "-"
+    age = make_list(tables[4])[0][2].split("/")[1].lstrip(' ')
+    # print(horse_id, age)
+    return age
 
 
 def make_table(race_no, race_info, table_results, table_awards, table_racecard, bet_info):
@@ -20,7 +51,20 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
         else:
             tags = race_info["tag"].split(" - ")
             y, m, d = util.convert_date(bet_info["date"])
-            table[i].insert(0, race_info["track"][5:])
+            # combined track and place
+            combined = ""
+            if bet_info["place"] == "ST":
+                combined += "田"
+            else: 
+                combined += "谷"
+            track = race_info["track"][5:]
+            if track[0] == "草":
+                combined += "草"
+                combined += track.split("\"")[1]
+            else:
+                combined += "泥"
+
+            table[i].insert(0, combined)
             table[i].insert(0, race_info["cond"][7:])
             # 分數範圍 sometimes does not exist
             if len(tags) > 2:
@@ -102,7 +146,9 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
         if i == 0:
             table[i].append("皇牌")
             table[i].append("配備")
-            table[i].append("操練")
+            table[i].append("馬齡")
+            table[i].append("評分")
+            table[i].append("評分+/-")
         else:
             if row[1] != '' and util.is_int(row[col_horse_no]):
                 horse_number = int(row[col_horse_no])
@@ -111,20 +157,24 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             else:
                 table[i].append('-')
                 table[i].append('-')
-            # TODO TODO TODO
-            table[i].append('') # 操練
+
+            horse_id = table[i][9].split('(')[1][:-1]
+            table[i].append(get_age(link_horseinfo, horse_id)) # 馬齡
+
+            if row[1] != '' and util.is_int(row[col_horse_no]):
+                horse_number = int(row[col_horse_no])
+                table[i].append(table_racecard[horse_number][-9]) # 優先參賽次序
+                table[i].append(table_racecard[horse_number][-8]) # 配備
+            else:
+                table[i].append('-')
+                table[i].append('-')
     # -------------------
-    # combine place & ddy
+    # combine -(place) & ddy
     # -------------------
     for i, row in enumerate(table):
         if i == 0:
-            table[i].append("地點")
             table[i].append("度地儀")
         else:
-            if bet_info["place"] == "ST":
-                table[i].append("沙田")
-            else:
-                table[i].append("跑馬地")
             table[i].append(bet_info["ddy"])
     # ------------
     # combine odds
