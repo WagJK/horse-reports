@@ -150,6 +150,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             table[i].append("評分")
             table[i].append("評分+/-")
         else:
+            # print(table_racecard[horse_number])
             if row[1] != '' and util.is_int(row[col_horse_no]):
                 horse_number = int(row[col_horse_no])
                 table[i].append(table_racecard[horse_number][-6]) # 優先參賽次序
@@ -158,13 +159,13 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
                 table[i].append('-')
                 table[i].append('-')
 
-            horse_id = table[i][9].split('(')[1][:-1]
-            table[i].append(get_age(link_horseinfo, horse_id)) # 馬齡
-
+            # horse_id = table[i][9].split('(')[1][:-1]
+            # table[i].append(get_age(link_horseinfo, horse_id)) # 馬齡
+            table[i].append("")
             if row[1] != '' and util.is_int(row[col_horse_no]):
                 horse_number = int(row[col_horse_no])
-                table[i].append(table_racecard[horse_number][-9]) # 優先參賽次序
-                table[i].append(table_racecard[horse_number][-8]) # 配備
+                table[i].append(table_racecard[horse_number][10]) # 優先參賽次序
+                table[i].append(table_racecard[horse_number][11]) # 配備
             else:
                 table[i].append('-')
                 table[i].append('-')

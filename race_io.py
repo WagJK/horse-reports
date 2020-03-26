@@ -16,7 +16,7 @@ INDEX_MIN = 2
 
 def get_betinfo(filename):
     bet = json.load(open(filename, 'r'))
-    return bet[0]
+    return bet
 
 
 def get_raceinfo(url):
@@ -27,11 +27,12 @@ def get_raceinfo(url):
     # driver.implicitly_wait(3)
     soup = BeautifulSoup(driver.page_source, 'lxml')
     info_left = soup.find('div', class_='info').find_all('div')[0]
+    driver.quit()
 
     course = ' '.join(list(map(lambda x: x.get_text(), info_left.find_all('p')[1:-1])))
     place = info_left.find_all('p')[0].find('span').get_text()
     ddy_index = info_left.find('p', class_='f_ffChinese').get_text().replace(" ", "").split("\n")[1]
-
+    
     return {
         'course': course,
         'place': place,
@@ -50,6 +51,7 @@ def get_results(url):
         # driver.implicitly_wait(3)
         soup = BeautifulSoup(driver.page_source, 'lxml')
         tables = soup.find_all('table')
+        driver.quit()
     # print(len(tables))
 
     # get race info per race
@@ -114,6 +116,7 @@ def get_racecard(url):
         # driver.implicitly_wait(3)
         soup = BeautifulSoup(driver.page_source, 'lxml')
         tables = soup.find_all('table')
+        driver.quit()
     # print(len(tables))
 
     # input and process racecard
