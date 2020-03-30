@@ -14,7 +14,7 @@ link_raceinfo = "http://racing.hkjc.com/racing/information/Chinese/Reports/RaceR
 
 def main():
     tmp = len(race_io.get_betinfo('bet.json'))
-    for i in range(26, -1, -1):
+    for i in range(0, -1, -1):
         print("* get bet info")
         bet_info = race_io.get_betinfo('bet.json')[i]
         race_date, race_place, number_of_races = bet_info['date'], bet_info['place'], bet_info['races']
@@ -83,12 +83,12 @@ def main():
         print("* output main & report")
         y, m, d = util.convert_date(bet_info["date"])
         # backup files
-        # shutil.copyfile(
-        #     "output/Data Base (2018-2019).csv",
-        #     "backup/Data Base (2018-2019) pre-{}-{}.csv".format(m,d)
-        # )
+        shutil.copyfile(
+            "output/Data Base (2018-2019).csv",
+            "backup/Data Base (2018-2019) pre-{}-{}.csv".format(m,d)
+        )
         make_main.output(combined_main, "output/Data Base (2018-2019).csv")
-        # make_report.output(combined_report, "output/Horse Report {}-{}-{}.csv".format(y, m, d))
+        make_report.output(combined_report, "output/Horse Report {}-{}-{}.csv".format(y, m, d))
 
 
 if __name__ == "__main__":
