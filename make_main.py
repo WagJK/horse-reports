@@ -161,7 +161,6 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
 
             horse_id = table[i][9].split('(')[1][:-1]
             table[i].append(get_age(link_horseinfo, horse_id)) # 馬齡
-            table[i].append("")
             if row[1] != '' and util.is_int(row[col_horse_no]):
                 horse_number = int(row[col_horse_no])
                 table[i].append(table_racecard[horse_number][10]) # 優先參賽次序
