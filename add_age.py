@@ -44,7 +44,7 @@ table_main = []
 with open(filename) as csvfile:
     spamreader = csv.reader(csvfile, delimiter='\t', quotechar='|')
     cnt = -1
-    min, max = 1194, 2147483647
+    min, max = 0, 2147483647
     for row in spamreader:
         cnt += 1
         if cnt == 0: continue

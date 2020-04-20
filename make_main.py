@@ -51,7 +51,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
         else:
             tags = race_info["tag"].split(" - ")
             y, m, d = util.convert_date(bet_info["date"])
-            # combined track and place
+            # 賽道
             combined = ""
             if bet_info["place"] == "ST":
                 combined += "田"
@@ -63,17 +63,41 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
                 combined += track.split("\"")[1]
             else:
                 combined += "泥"
-
             table[i].insert(0, combined)
-            table[i].insert(0, race_info["cond"][7:])
-            # 分數範圍 sometimes does not exist
+            # 場地
+            condition = race_info["cond"][7:]
+            if condition == "好地":
+                table[i].insert(0, "好")
+            elif condition == "好地至快地":
+                table[i].insert(0, "好至快")
+            elif condition == "好地至黏地":
+                table[i].insert(0, "好至黏")
+            elif condition == "濕慢地":
+                table[i].insert(0, "濕慢")
+            else:
+                table[i].insert(0, condition)
+            # 分數範圍
             if len(tags) > 2:
                 table[i].insert(0, tags[2])
             else:
                 table[i].insert(0, '')
+            # 長度
             table[i].insert(0, tags[1])
-            table[i].insert(0, tags[0])
+            # 班次
+            if tags[0][0] == "第":
+                if len(tags[0] == 3):
+                    table[i].insert(0, tags[0][1:2])
+                else:
+                    table[i].insert(0, tags[0][1:2] + "*")
+            elif tags[0][0] == "國":
+                table[i].insert(0, tags[0][2:])
+            elif tags[0][0] == "條":
+                table[i].insert(0, "*")
+            else:
+                table[i].insert(0, tags[0])
+            # 場次
             table[i].insert(0, race_no)
+            # 日期
             table[i].insert(0, "{}/{}/{}".format(y, m, d))
     # ----------------
     # combine hot info
@@ -169,12 +193,17 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
                 table[i].append('-')
                 table[i].append('-')
     # -------------------
-    # combine -(place) & ddy
+    # combine place & ddy
     # -------------------
     for i, row in enumerate(table):
         if i == 0:
+            table[i].append("地點")
             table[i].append("度地儀")
         else:
+            if bet_info["place"] == "ST":
+                table[i].append("沙田")
+            else:
+                table[i].append("跑馬地")
             table[i].append(bet_info["ddy"])
     # ------------
     # combine odds
