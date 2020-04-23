@@ -85,7 +85,7 @@ def make_table(race_no, race_info, table_results, table_awards, table_racecard, 
             table[i].insert(0, tags[1])
             # 班次
             if tags[0][0] == "第":
-                if len(tags[0] == 3):
+                if len(tags[0]) == 3:
                     table[i].insert(0, tags[0][1:2])
                 else:
                     table[i].insert(0, tags[0][1:2] + "*")
