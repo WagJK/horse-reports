@@ -16,6 +16,8 @@ import make_main
 # read csv
 filename = sys.argv[1]
 table_main = []
+
+dict_horse = {}
 with open(filename) as csvfile:
     spamreader = csv.reader(csvfile, delimiter='\t', quotechar='|')
     cnt = -1
@@ -25,6 +27,8 @@ with open(filename) as csvfile:
         if cnt == 0: continue
         if cnt < min or cnt > max: continue
 
-        row = row[:26] + [""] + row[26:]
+        if row[9] not in dict_horse:
+            dict_horse[row[9]] = True
+            row[25] = 0
 
         util.write_table_append([row], "output/Data Base (2018-2019) new.csv")
