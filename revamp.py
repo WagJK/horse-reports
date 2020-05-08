@@ -27,8 +27,9 @@ with open(filename) as csvfile:
         if cnt == 0: continue
         if cnt < min or cnt > max: continue
 
-        if row[9] not in dict_horse:
-            dict_horse[row[9]] = True
-            row[25] = 0
+        if row[6][0] == "田":
+            row[-9] = "沙田"
+        else:
+            row[-9] = "跑馬地"
 
         util.write_table_append([row], "output/Data Base (2018-2019) new.csv")
